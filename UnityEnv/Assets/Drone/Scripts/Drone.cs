@@ -14,7 +14,7 @@ public class Drone : MonoBehaviour
     public DronePath Path { get; private set; }
     public DroneScanBuffer ScanBuffer { get; private set; }
 
-    public const int scanBufferSize = 10;
+    private const int scanBufferSize = 10;
     private const float proximitySensorRange = 1f;
     private const float maxVelocity = 0.2f;
     private const float pathExtent = 2f;
@@ -216,7 +216,7 @@ public class DronePath
     {
         Trim();
 
-        if (Spacing < Mathf.Epsilon || (pos - (Vector3)latest).sqrMagnitude >= spacingSqr)
+        if (spacingSqr < Mathf.Epsilon || (pos - (Vector3)latest).sqrMagnitude >= spacingSqr)
         {
             if (AddChronological(pos))
             {
