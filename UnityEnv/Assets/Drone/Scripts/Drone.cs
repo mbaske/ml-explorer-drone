@@ -124,7 +124,6 @@ public class DroneScanBuffer
     private int sizeV;
     private int sizeF;
     private float[] na;
-    private float[] prox;
 
     public DroneScanBuffer(int size)
     {
