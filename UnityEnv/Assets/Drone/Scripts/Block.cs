@@ -54,7 +54,7 @@ public class Block
         cube.localScale = new Vector3(1f, 1f, scale * 2f);
         cube.parent = parent;
         cube.gameObject.layer = parent.gameObject.layer;
-        cube.GetComponent<Renderer>().material = mat;
+        cube.GetComponent<Renderer>().sharedMaterial = mat;
         return cube;
     }
 }
