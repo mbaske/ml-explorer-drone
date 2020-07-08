@@ -1,5 +1,6 @@
+using Unity.MLAgents;
+using Unity.MLAgents.Sensors;
 using UnityEngine;
-using MLAgents;
 
 public class DroneAgent : Agent
 {
@@ -24,7 +25,7 @@ public class DroneAgent : Agent
         leafNodeSize = Mathf.Pow(2f, Mathf.Round(Mathf.Log(leafNodeSize, 2f)));
     }
 
-    public override void InitializeAgent()
+    public override void Initialize()
     {
         Data = new DroneData();
 
@@ -36,7 +37,7 @@ public class DroneAgent : Agent
         Cam.Initialize();
     }
 
-    public override void AgentReset()
+    public override void OnEpisodeBegin()
     {
         Data.Reset(Drone.Position, lookRadius, leafNodeSize);
 
@@ -49,7 +50,7 @@ public class DroneAgent : Agent
         lingerCount = 0;
     }
 
-    public override void CollectObservations()
+    public override void CollectObservations(VectorSensor sensor)
     {
         Vector3 pos = Drone.Position;
         if (IsNewGridPosition(pos))
@@ -74,24 +75,24 @@ public class DroneAgent : Agent
         float proxPenalty = (1f - 1f / Mathf.Max(proximity.w, 0.1f)) * velocity.sqrMagnitude * 0.25f;
         AddReward(proxPenalty);
 
-        AddVectorObs(linger - 1f); // 1
-        AddVectorObs(velocity); // 3 
-        AddVectorObs((Vector3)proximity); // 3
-        AddVectorObs(proximity.w * 2f - 1f); // 1 
-        AddVectorObs(Data.LookRadiusNorm); // 1 
-        AddVectorObs(Data.NodeDensities); // 8
-        AddVectorObs(Data.IntersectRatios); // 8 
-        AddVectorObs(Drone.ScanBuffer.ToArray()); // 30
+        sensor.AddObservation(linger - 1f); // 1
+        sensor.AddObservation(velocity); // 3 
+        sensor.AddObservation((Vector3)proximity); // 3
+        sensor.AddObservation(proximity.w * 2f - 1f); // 1 
+        sensor.AddObservation(Data.LookRadiusNorm); // 1 
+        sensor.AddObservation(Data.NodeDensities); // 8
+        sensor.AddObservation(Data.IntersectRatios); // 8 
+        sensor.AddObservation(Drone.ScanBuffer.ToArray()); // 30
     }
 
-    public override void AgentAction(float[] vectorAction, string textAction)
+    public override void OnActionReceived(float[] vectorAction)
     {
         scanPoint = Drone.Scan(vectorAction[0], vectorAction[1], Data.LookRadius);
         Drone.Move(new Vector3(vectorAction[2], vectorAction[3], vectorAction[4]));
 
         if (!World.StepUpdate())
         {
-            AgentReset();
+            OnEpisodeBegin();
         }
     }
 
