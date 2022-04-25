@@ -1,0 +1,20 @@
+{
+    "name": "DroneAssembly",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d8b63aba1907145bea998dd612889d6b",
+        "GUID:2665a8d13d1b3f18800f46e256720795",
+        "GUID:b75d3cd3037d383a8d1e2f9a26d73d8a",
+        "GUID:85e0054f8e64b47309646d35f8851f81",
+        "GUID:d60799ab2a985554ea1a39cd38695018"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

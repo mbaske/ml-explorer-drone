@@ -1,0 +1,45 @@
+default_settings:
+
+  trainer_type: ppo
+  hyperparameters:
+    batch_size: 2048
+    buffer_size: 20480
+    learning_rate: 0.0003
+    beta: 0.005
+    epsilon: 0.2
+    lambd: 0.95
+    num_epoch: 3
+    learning_rate_schedule: linear
+  network_settings:
+    normalize: false
+    hidden_units: 256
+    num_layers: 2
+    vis_encode_type: simple
+  reward_signals:
+    extrinsic:
+      gamma: 0.99
+      strength: 1.0
+  keep_checkpoints: 100
+  time_horizon: 1000
+  summary_freq: 10000
+  max_steps: 50000000
+    
+behaviors:
+
+  RotorControl:
+    network_settings:
+      hidden_units: 32
+      num_layers: 3
+    max_steps: 100000000
+
+  VisualPilot:
+    reward_signals:
+      gail:
+        strength: 0.01
+        gamma: 0.99
+        demo_path: VisualPilot.demo
+    behavioral_cloning:
+      demo_path: VisualPilot.demo
+      strength: 0.5
+      steps: 10000000
+    
