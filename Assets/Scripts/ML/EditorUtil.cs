@@ -21,7 +21,7 @@ namespace DroneProject
             
             for (int i = 0; i < editors.Length; i++)
             {
-                if (tracker.GetVisible(i) != 0 && editors[i].ToString() == type)
+                if (tracker.GetVisible(i) != 0 && editors[i] != null && editors[i].ToString() == type)
                 {
                     tracker.SetVisible(i, 0);
                     warn = true;
